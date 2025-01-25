@@ -18,6 +18,10 @@ public class category_model {
     @Column(nullable = false)
     private Boolean active;
 
+    @OneToOne
+    @JoinColumn(name = "idStores")
+    private store_model store;
+
     @OneToMany(mappedBy = "category")
     private List<service_model> services;
 
@@ -43,6 +47,14 @@ public class category_model {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public store_model getStore() {
+        return store;
+    }
+
+    public void setStore(store_model store) {
+        this.store = store;
     }
 
     public List<service_model> getServices() {

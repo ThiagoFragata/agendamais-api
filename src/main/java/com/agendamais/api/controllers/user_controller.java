@@ -1,6 +1,6 @@
 package com.agendamais.api.controllers;
 
-import com.agendamais.api.dtos.user.user_create_record_dto;
+import com.agendamais.api.dtos.user.user_record_dto;
 import com.agendamais.api.dtos.user.user_response_record_dto;
 import com.agendamais.api.models.user_model;
 import com.agendamais.api.services.user_service;
@@ -12,9 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/users")
@@ -24,34 +22,23 @@ public class user_controller {
     private user_service user_service;
 
     @PostMapping
-    public ResponseEntity<Object> create_user(@RequestBody @Valid user_create_record_dto user, BindingResult binding_result) {
+    public ResponseEntity<Object> create_user(@RequestBody @Valid user_record_dto user, BindingResult binding_result) {
         if (binding_result.hasErrors()) {
             List<String> error_messages = new ArrayList<>();
             binding_result.getAllErrors().forEach(error -> error_messages.add(error.getDefaultMessage()));
-
-            error_response errorResponse = new error_response(HttpStatus.BAD_REQUEST.value(), error_messages);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+            return create_error_response(HttpStatus.BAD_REQUEST, error_messages);
         }
 
-        try {
-            user_model new_user = user_service.create_user(user);
-            return ResponseEntity.status(HttpStatus.CREATED).body(new_user);
-        } catch (IllegalArgumentException e) {
-            error_response error_response = new error_response(HttpStatus.BAD_REQUEST.value(), e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error_response);
-        } catch (Exception e) {
-            error_response error_response = new error_response(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Erro inesperado ao criar o usuário.");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error_response);
-        }
+        user_model new_user = user_service.create_user(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new_user);
     }
 
     @GetMapping
-    public Object get_all_users() {
+    public ResponseEntity<Object> get_all_users() {
         List<user_response_record_dto> users = user_service.find_all_users();
 
         if (users.isEmpty()) {
-            error_response error_response = new error_response(HttpStatus.NO_CONTENT.value(), "Lista de usuários vazia.");
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(error_response);
+            return create_error_response(HttpStatus.NO_CONTENT, "Lista de usuários vazia.");
         }
 
         return ResponseEntity.ok(users);
@@ -59,19 +46,24 @@ public class user_controller {
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> get_user_by_id(@PathVariable Long id) {
-        Optional<user_response_record_dto> user = user_service.find_user_by_id(id);
+        Optional<user_response_record_dto> user_dto = user_service.find_user_by_id(id);
 
-        return user.<ResponseEntity<Object>>map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado"));
+        return user_dto.map(user -> ResponseEntity.ok((Object) user))
+                .orElseGet(() -> create_error_response(HttpStatus.NOT_FOUND, "Usuário não encontrado"));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete_user(@PathVariable Long id) {
-        try {
-            user_service.delete_user(id);
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build(); // 204 No Content
-        } catch (IllegalArgumentException e) {
-            error_response errorResponse = new error_response(HttpStatus.NOT_FOUND.value(), List.of(e.getMessage()));
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
-        }
+        user_service.delete_user(id);
+
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Usuário deletado com sucesso");
+
+        return ResponseEntity.ok(response);
+    }
+
+    private ResponseEntity<Object> create_error_response(HttpStatus status, Object message) {
+        error_response errorResponse = new error_response(status.value(), message);
+        return ResponseEntity.status(status).body(errorResponse);
     }
 }

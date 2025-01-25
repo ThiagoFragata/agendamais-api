@@ -20,6 +20,10 @@ public class employee_model {
     @JoinColumn(name = "idUsers")
     private user_model user;
 
+    @OneToOne
+    @JoinColumn(name = "idStores")
+    private store_model store;
+
     public Long getId() {
         return id;
     }
@@ -50,5 +54,13 @@ public class employee_model {
 
     public void setUser(user_model user) {
         this.user = user;
+    }
+
+    public store_model getStore() {
+        return store;
+    }
+
+    public void setStore(store_model store) {
+        this.store = store;
     }
 }

@@ -6,10 +6,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-import java.util.UUID;
-
+@Repository
 public interface user_repository extends JpaRepository<user_model, Long> {
     boolean existsByEmail(@NotBlank(message = "O email é obrigatório") @Email(message = "O email deve ser válido") String email);
 

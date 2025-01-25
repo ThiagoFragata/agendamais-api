@@ -2,7 +2,7 @@ package com.agendamais.api.dtos.user;
 
 import jakarta.validation.constraints.*;
 
-public record user_create_record_dto(
+public record user_record_dto(
         @NotBlank(message = "O email é obrigatório")
         @Email(message = "O email deve ser válido")
         String email,
