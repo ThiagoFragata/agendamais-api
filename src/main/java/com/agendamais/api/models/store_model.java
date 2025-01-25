@@ -2,8 +2,6 @@ package com.agendamais.api.models;
 
 import jakarta.persistence.*;
 
-import java.util.List;
-
 @Entity
 @Table(name = "Stores")
 public class store_model {
@@ -22,11 +20,11 @@ public class store_model {
     private Integer phone;
 
     @OneToOne
-    @JoinColumn(name = "idAddress")
+    @JoinColumn(name = "id_address")
     private address_model address;
 
-    @ManyToOne
-    @JoinColumn(name = "idCategories")
+    @OneToOne
+    @JoinColumn(name = "id_categories")
     private category_model category;
 
     public Long getId() {
