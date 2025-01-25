@@ -23,10 +23,6 @@ public class store_model {
     @JoinColumn(name = "id_address")
     private address_model address;
 
-    @OneToOne
-    @JoinColumn(name = "id_categories")
-    private category_model category;
-
     public Long getId() {
         return id;
     }
@@ -65,13 +61,5 @@ public class store_model {
 
     public void setAddress(address_model address) {
         this.address = address;
-    }
-
-    public category_model getCategory() {
-        return category;
-    }
-
-    public void setCategory(category_model category) {
-        this.category = category;
     }
 }
