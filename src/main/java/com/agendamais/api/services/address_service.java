@@ -1,6 +1,6 @@
 package com.agendamais.api.services;
 
-import com.agendamais.api.dtos.user.address_record_dto;
+import com.agendamais.api.dtos.address.address_record_dto;
 import com.agendamais.api.models.address_model;
 import com.agendamais.api.repositories.address_repository;
 

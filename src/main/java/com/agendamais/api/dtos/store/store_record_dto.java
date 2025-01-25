@@ -1,4 +1,4 @@
-package com.agendamais.api.dtos.user;
+package com.agendamais.api.dtos.store;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

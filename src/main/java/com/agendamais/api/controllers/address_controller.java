@@ -1,6 +1,6 @@
 package com.agendamais.api.controllers;
 
-import com.agendamais.api.dtos.user.address_record_dto;
+import com.agendamais.api.dtos.address.address_record_dto;
 import com.agendamais.api.models.address_model;
 import com.agendamais.api.services.address_service;
 import com.agendamais.api.utils.error_response;
@@ -59,7 +59,7 @@ public class address_controller {
         try {
 
             address_service.delete_address(id);
-            
+
             Map<String, String> response = new HashMap<>();
             response.put("message", "Endereço deletado com sucesso");
 

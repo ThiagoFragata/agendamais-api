@@ -1,5 +1,6 @@
 package com.agendamais.api.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -18,12 +19,10 @@ public class category_model {
     @Column(nullable = false)
     private Boolean active;
 
-    @OneToOne
-    @JoinColumn(name = "idStores")
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "store_id")
     private store_model store;
-
-    @OneToMany(mappedBy = "category")
-    private List<service_model> services;
 
     public Long getId() {
         return id;
@@ -55,13 +54,5 @@ public class category_model {
 
     public void setStore(store_model store) {
         this.store = store;
-    }
-
-    public List<service_model> getServices() {
-        return services;
-    }
-
-    public void setServices(List<service_model> services) {
-        this.services = services;
     }
 }

@@ -1,8 +1,6 @@
 package com.agendamais.api.controllers;
 
-import com.agendamais.api.dtos.user.store_record_dto;
-import com.agendamais.api.dtos.user.store_with_address_record_dto;
-import com.agendamais.api.dtos.user.user_response_record_dto;
+import com.agendamais.api.dtos.store.store_with_address_record_dto;
 import com.agendamais.api.models.address_model;
 import com.agendamais.api.models.store_model;
 import com.agendamais.api.services.store_service;
