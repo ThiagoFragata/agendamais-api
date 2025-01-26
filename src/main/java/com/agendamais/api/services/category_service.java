@@ -1,6 +1,5 @@
 package com.agendamais.api.services;
 
-import com.agendamais.api.dtos.category.category_record_dto;
 import com.agendamais.api.dtos.category.category_with_store_record_dto;
 import com.agendamais.api.models.category_model;
 import com.agendamais.api.models.store_model;
