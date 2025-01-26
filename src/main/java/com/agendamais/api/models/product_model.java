@@ -4,8 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Products")
-public class products_model {
-
+public class product_model {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,8 +17,15 @@ public class products_model {
     @Column(nullable = false)
     private Double price;
 
+    @Column(nullable = false)
+    private int amount;
+
     @Column
     private String image;
+
+    @ManyToOne
+    @JoinColumn(name = "id_store", nullable = false)
+    private store_model store;
 
     public Long getId() {
         return id;
@@ -53,11 +59,27 @@ public class products_model {
         this.price = price;
     }
 
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
     public String getImage() {
         return image;
     }
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public store_model getStore() {
+        return store;
+    }
+
+    public void setStore(store_model store) {
+        this.store = store;
     }
 }
