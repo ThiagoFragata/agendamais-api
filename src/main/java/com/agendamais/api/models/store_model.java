@@ -31,6 +31,10 @@ public class store_model {
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<category_model> categories = new ArrayList<>();
 
+    @JsonIgnoreProperties("store")
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<employee_model> employees = new ArrayList<>();
+
     public Long getId() {
         return id;
     }
@@ -76,5 +80,13 @@ public class store_model {
 
     public void setCategories(List<category_model> categories) {
         this.categories = categories;
+    }
+
+    public List<employee_model> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(List<employee_model> employees) {
+        this.employees = employees;
     }
 }

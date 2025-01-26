@@ -1,5 +1,6 @@
 package com.agendamais.api.models;
 
+import com.agendamais.api.dtos.user.user_response_record_dto;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,18 +12,22 @@ public class employee_model {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private Integer cpf;
+    private String cpf;
 
     @Column
     private String photo;
+
+    @Column(nullable = false)
+    private Boolean active = true;
 
     @OneToOne
     @JoinColumn(name = "idUsers")
     private user_model user;
 
-    @OneToOne
-    @JoinColumn(name = "idStores")
+    @ManyToOne
+    @JoinColumn(name = "id_store", nullable = false)
     private store_model store;
+
 
     public Long getId() {
         return id;
@@ -32,11 +37,11 @@ public class employee_model {
         this.id = id;
     }
 
-    public Integer getCpf() {
+    public String getCpf() {
         return cpf;
     }
 
-    public void setCpf(Integer cpf) {
+    public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 
@@ -46,6 +51,14 @@ public class employee_model {
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public user_model getUser() {

@@ -49,6 +49,7 @@ public class user_service {
     public List<user_response_record_dto> find_all_users() {
         return user_repository.findAll().stream()
                 .map(user -> new user_response_record_dto(
+                        user.getId(),
                         user.getName(),
                         user.getEmail(),
                         user.getPhone()
@@ -59,6 +60,7 @@ public class user_service {
     public Optional<user_response_record_dto> find_user_by_id(Long id) {
         return user_repository.findById(id)
                 .map(user -> new user_response_record_dto(
+                        user.getId(),
                         user.getName(),
                         user.getEmail(),
                         user.getPhone()
