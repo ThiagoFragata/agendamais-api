@@ -28,15 +28,15 @@ public class global_exception_handler {
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
-//    @ExceptionHandler(DataIntegrityViolationException.class)
-//    public ResponseEntity<error_response> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
-//        String message = "A operação falhou devido a dados conflitantes no banco de dados.";
-//
-//        if (ex.getCause() != null && ex.getCause().getMessage() != null && ex.getCause().getMessage().contains("duplicate key value")) {
-//            message = "A chave fornecida já existe no banco de dados. Verifique se os dados estão corretos.";
-//        }
-//
-//        error_response error = new error_response(409, message);
-//        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
-//    }
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<error_response> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+        String message = "A operação falhou devido a dados conflitantes no banco de dados.";
+
+        if (ex.getCause() != null && ex.getCause().getMessage() != null && ex.getCause().getMessage().contains("duplicate key value")) {
+            message = "A chave fornecida já existe no banco de dados. Verifique se os dados estão corretos.";
+        }
+
+        error_response error = new error_response(409, message);
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+    }
 }

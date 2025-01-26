@@ -1,6 +1,5 @@
 package com.agendamais.api.models;
 
-import com.agendamais.api.dtos.user.user_response_record_dto;
 import jakarta.persistence.*;
 
 @Entity
