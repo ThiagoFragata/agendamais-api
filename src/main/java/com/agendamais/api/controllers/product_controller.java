@@ -4,7 +4,7 @@ import com.agendamais.api.dtos.product.product_create_update_dto;
 import com.agendamais.api.dtos.product.product_response_dto;
 import com.agendamais.api.models.product_model;
 import com.agendamais.api.services.product_service;
-import com.agendamais.api.utils.success_response;
+import com.agendamais.api.config.success_response;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

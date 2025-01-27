@@ -1,10 +1,12 @@
 package com.agendamais.api.controllers;
 
+import com.agendamais.api.dtos.address.address_response_record_dto;
+import com.agendamais.api.dtos.store.store_response_record_dto;
 import com.agendamais.api.dtos.store.store_with_address_record_dto;
 import com.agendamais.api.models.address_model;
 import com.agendamais.api.models.store_model;
 import com.agendamais.api.services.store_service;
-import com.agendamais.api.utils.error_response;
+import com.agendamais.api.config.error_response;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,28 +42,37 @@ public class store_controller {
     }
 
     @GetMapping("/{storeId}/address")
-    public ResponseEntity<address_model> get_store_address(@PathVariable Long storeId) {
+    public ResponseEntity<address_response_record_dto> get_store_address(@PathVariable Long storeId) {
         address_model address = store_service.get_store_address(storeId);
-        return ResponseEntity.ok(address);
+
+        return ResponseEntity.ok(new address_response_record_dto(address));
     }
 
     @GetMapping
-    public ResponseEntity<Object> get_all_stores() {
+    public ResponseEntity<List<store_response_record_dto>> get_all_stores() {
         List<store_model> stores = store_service.find_all_stores();
 
         if (stores.isEmpty()) {
-            return create_error_response(HttpStatus.NO_CONTENT, "Lista de lojas vazia.");
+            return ResponseEntity.noContent().build();
         }
 
-        return ResponseEntity.ok(stores);
+        List<store_response_record_dto> response = stores.stream()
+                .map(store_response_record_dto::new)
+                .toList();
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> get_store_by_id(@PathVariable Long id) {
+    public ResponseEntity<?> get_store_by_id(@PathVariable Long id) {
         Optional<store_model> store = store_service.find_store_by_id(id);
 
-        return store.map(user -> ResponseEntity.ok((Object) user))
-                .orElseGet(() -> create_error_response(HttpStatus.NOT_FOUND, "Usuário não encontrado"));
+        if (store.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Loja não encontrada."); // Retorno como String no caso de erro
+        }
+
+        return ResponseEntity.ok(new store_response_record_dto(store.get()));
     }
 
     private ResponseEntity<Object> create_error_response(HttpStatus status, Object message) {

@@ -23,8 +23,12 @@ public class service_model {
     private Boolean active;
 
     @ManyToOne
-    @JoinColumn(name = "idCategories")
+    @JoinColumn(name = "id_category")
     private category_model category;
+
+    @ManyToOne
+    @JoinColumn(name = "id_store")
+    private store_model store;
 
     public Long getId() {
         return id;
@@ -72,5 +76,13 @@ public class service_model {
 
     public void setCategory(category_model category) {
         this.category = category;
+    }
+
+    public store_model getStore() {
+        return store;
+    }
+
+    public void setStore(store_model store) {
+        this.store = store;
     }
 }

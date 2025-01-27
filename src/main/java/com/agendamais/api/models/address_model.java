@@ -1,6 +1,8 @@
 package com.agendamais.api.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "Address")
@@ -20,12 +22,13 @@ public class address_model {
     private String neighborhood;
 
     @Column
-    private Integer longitude;
+    private int longitude;
 
     @Column
-    private Integer latitude;
+    private int latitude;
 
     @OneToOne(mappedBy = "address")
+    @JsonIgnoreProperties("address") // Evita o looping
     private store_model store_id;
 
     public Long getId() {
@@ -60,7 +63,7 @@ public class address_model {
         this.neighborhood = neighborhood;
     }
 
-    public Integer getLongitude() {
+    public @NotNull int getLongitude() {
         return longitude;
     }
 
@@ -68,11 +71,19 @@ public class address_model {
         this.longitude = longitude;
     }
 
-    public Integer getLatitude() {
+    public @NotNull int getLatitude() {
         return latitude;
     }
 
     public void setLatitude(Integer latitude) {
         this.latitude = latitude;
+    }
+
+    public store_model getStore_id() {
+        return store_id;
+    }
+
+    public void setStore_id(store_model store_id) {
+        this.store_id = store_id;
     }
 }

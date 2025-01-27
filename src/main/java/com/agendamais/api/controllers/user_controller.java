@@ -4,7 +4,7 @@ import com.agendamais.api.dtos.user.user_record_dto;
 import com.agendamais.api.dtos.user.user_response_record_dto;
 import com.agendamais.api.models.user_model;
 import com.agendamais.api.services.user_service;
-import com.agendamais.api.utils.error_response;
+import com.agendamais.api.config.error_response;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

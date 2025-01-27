@@ -33,6 +33,10 @@ public class store_model {
 
     @JsonIgnoreProperties("store")
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<service_model> services = new ArrayList<>();
+
+    @JsonIgnoreProperties("store")
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<employee_model> employees = new ArrayList<>();
 
     public Long getId() {
@@ -88,5 +92,13 @@ public class store_model {
 
     public void setEmployees(List<employee_model> employees) {
         this.employees = employees;
+    }
+
+    public List<service_model> getServices() {
+        return services;
+    }
+
+    public void setServices(List<service_model> services) {
+        this.services = services;
     }
 }

@@ -1,8 +1,7 @@
 package com.agendamais.api.services;
 
-import com.agendamais.api.dtos.employee.employee_create_record_dto;
-import com.agendamais.api.dtos.employee.employee_update_record_dto;
-import com.agendamais.api.dtos.employee.employee_with_user_create_record_dto;
+import com.agendamais.api.dtos.employee.*;
+import com.agendamais.api.dtos.user.user_record_dto;
 import com.agendamais.api.models.employee_model;
 import com.agendamais.api.models.store_model;
 import com.agendamais.api.models.user_model;
@@ -30,7 +29,8 @@ public class employee_service {
     @Autowired
     private user_service user_service;
 
-    public employee_model create_employee(employee_create_record_dto employee_dto) {
+    public employee_model create_employee_with_existing_user(employee_create_with_existing_user_record_dto employee_dto) {
+
         user_model user = user_repository.findById(employee_dto.user_id())
                 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
 
@@ -38,8 +38,8 @@ public class employee_service {
                 .orElseThrow(() -> new EntityNotFoundException("Loja não encontrada"));
 
         employee_model employee = new employee_model();
-
         employee.setCpf(employee_dto.cpf());
+        employee.setActive(employee_dto.active());
         employee.setPhoto(employee_dto.photo());
         employee.setUser(user);
         employee.setStore(store);
@@ -47,16 +47,21 @@ public class employee_service {
         return employee_repository.save(employee);
     }
 
-    public employee_model create_employee_with_user(employee_with_user_create_record_dto employee_dto) {
+    public employee_model create_employee_with_user(employee_create_with_user_record_dto employee_dto) {
 
-        store_model store = store_repository.findById(employee_dto.storeId())
+        store_model store = store_repository.findById(employee_dto.store_id())
                 .orElseThrow(() -> new EntityNotFoundException("Loja não encontrada"));
 
-        user_model user = user_service.create_user(employee_dto.employee());
+        user_model user = user_service.create_user(new user_record_dto(
+                employee_dto.email(),
+                employee_dto.name(),
+                employee_dto.phone(),
+                employee_dto.password()
+        ));
 
         employee_model employee = new employee_model();
-
         employee.setCpf(employee_dto.cpf());
+        employee.setActive(employee_dto.active());
         employee.setPhoto(employee_dto.photo());
         employee.setUser(user);
         employee.setStore(store);

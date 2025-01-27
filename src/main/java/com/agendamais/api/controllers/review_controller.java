@@ -4,7 +4,7 @@ import com.agendamais.api.dtos.review.review_record_dto;
 import com.agendamais.api.dtos.review.review_response_dto;
 import com.agendamais.api.models.review_model;
 import com.agendamais.api.services.review_service;
-import com.agendamais.api.utils.success_response;
+import com.agendamais.api.config.success_response;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

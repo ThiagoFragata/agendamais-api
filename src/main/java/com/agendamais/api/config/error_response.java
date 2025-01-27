@@ -1,4 +1,4 @@
-package com.agendamais.api.utils;
+package com.agendamais.api.config;
 
 public class error_response {
     private int error;

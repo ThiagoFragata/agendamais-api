@@ -3,7 +3,7 @@ package com.agendamais.api.controllers;
 import com.agendamais.api.dtos.employee.*;
 import com.agendamais.api.models.employee_model;
 import com.agendamais.api.services.employee_service;
-import com.agendamais.api.utils.success_response;
+import com.agendamais.api.config.success_response;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,19 +22,21 @@ public class employee_controller {
 
 
     @PostMapping("/with-existing-user")
-    public Object create_employee_with_existing_user(
-            @RequestBody @Valid employee_create_record_dto employee_dto) {
+    public ResponseEntity<employee_response_record_dto> create_employee_with_existing_user(
+            @RequestBody @Valid employee_create_with_existing_user_record_dto employee_dto) {
 
-        employee_model employee = employee_service.create_employee(employee_dto);
+        employee_model employee = employee_service.create_employee_with_existing_user(employee_dto);
+
         employee_response_record_dto responseDto = new employee_response_record_dto(employee);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 
     @PostMapping
     public ResponseEntity<employee_response_record_dto> create_employee_with_user(
-            @RequestBody @Valid employee_with_user_create_record_dto employee_dto) {
+            @RequestBody @Valid employee_create_with_user_record_dto employee_dto) {
 
         employee_model employee = employee_service.create_employee_with_user(employee_dto);
+
         employee_response_record_dto responseDto = new employee_response_record_dto(employee);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }

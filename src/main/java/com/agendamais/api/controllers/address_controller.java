@@ -1,9 +1,10 @@
 package com.agendamais.api.controllers;
 
 import com.agendamais.api.dtos.address.address_record_dto;
+import com.agendamais.api.dtos.address.address_response_record_dto;
 import com.agendamais.api.models.address_model;
 import com.agendamais.api.services.address_service;
-import com.agendamais.api.utils.error_response;
+import com.agendamais.api.config.error_response;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/address")
@@ -44,13 +46,17 @@ public class address_controller {
             return create_error_response(HttpStatus.NO_CONTENT, "Lista de endereços vazia.");
         }
 
-        return ResponseEntity.ok(addresses);
+        List<address_response_record_dto> addressDtos = addresses.stream()
+                .map(address_response_record_dto::new)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(addressDtos);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> find_address_by_id(@PathVariable Long id) {
         return address_service.find_address_by_id(id)
-                .map(address -> ResponseEntity.ok((Object) address))
+                .map(address -> ResponseEntity.ok((Object) new address_response_record_dto(address))) // Mapeando para DTO
                 .orElseGet(() -> create_error_response(HttpStatus.NOT_FOUND, "Endereço não encontrado."));
     }
 

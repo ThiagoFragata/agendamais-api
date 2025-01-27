@@ -1,4 +1,4 @@
-package com.agendamais.api.utils;
+package com.agendamais.api.config;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
