@@ -1,10 +1,10 @@
 package com.agendamais.api.config;
 
-public class error_response {
+public class error_response_config {
     private int error;
     private Object message;
 
-    public error_response(int error, Object message) {
+    public error_response_config(int error, Object message) {
         this.error = error;
         this.message = message;
     }

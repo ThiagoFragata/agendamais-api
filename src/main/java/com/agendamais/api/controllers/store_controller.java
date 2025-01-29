@@ -6,7 +6,7 @@ import com.agendamais.api.dtos.store.store_with_address_record_dto;
 import com.agendamais.api.models.address_model;
 import com.agendamais.api.models.store_model;
 import com.agendamais.api.services.store_service;
-import com.agendamais.api.config.error_response;
+import com.agendamais.api.config.error_response_config;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -76,7 +76,7 @@ public class store_controller {
     }
 
     private ResponseEntity<Object> create_error_response(HttpStatus status, Object message) {
-        error_response errorResponse = new error_response(status.value(), message);
+        error_response_config errorResponse = new error_response_config(status.value(), message);
         return ResponseEntity.status(status).body(errorResponse);
     }
 }

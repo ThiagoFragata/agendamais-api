@@ -1,6 +1,6 @@
 package com.agendamais.api.controllers;
 
-import com.agendamais.api.config.success_response;
+import com.agendamais.api.config.success_response_config;
 import com.agendamais.api.dtos.appointment.appointment_create_record_dto;
 import com.agendamais.api.dtos.appointment.appointment_response_record_dto;
 import com.agendamais.api.dtos.appointment.update_appointment_status_record_dto;
@@ -21,11 +21,11 @@ public class appointment_controller {
     private appointment_service appointment_service;
 
     @PostMapping
-    public ResponseEntity<success_response> create_appointment(
+    public ResponseEntity<success_response_config> create_appointment(
             @Valid @RequestBody appointment_create_record_dto appointment_dto) {
         appointment_model appointment = appointment_service.create_appointment(appointment_dto);
 
-        return ResponseEntity.ok(new success_response("Serviço agendado com sucesso."));
+        return ResponseEntity.ok(new success_response_config("Serviço agendado com sucesso."));
     }
 
     @GetMapping

@@ -4,7 +4,7 @@ import com.agendamais.api.dtos.review.review_record_dto;
 import com.agendamais.api.dtos.review.review_response_dto;
 import com.agendamais.api.models.review_model;
 import com.agendamais.api.services.review_service;
-import com.agendamais.api.config.success_response;
+import com.agendamais.api.config.success_response_config;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +24,9 @@ public class review_controller {
     private review_service review_service;
 
     @PostMapping
-    public ResponseEntity<success_response> create_review(@RequestBody @Valid review_record_dto review_dto) {
+    public ResponseEntity<success_response_config> create_review(@RequestBody @Valid review_record_dto review_dto) {
         review_model createdReview = review_service.create_review(review_dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new success_response("Review criado com sucesso!"));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new success_response_config("Review criado com sucesso!"));
     }
 
     @GetMapping

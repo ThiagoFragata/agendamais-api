@@ -1,9 +1,9 @@
 package com.agendamais.api.config;
 
-public class success_response {
+public class success_response_config {
     private String message;
 
-    public success_response(String message) {
+    public success_response_config(String message) {
         this.message = message;
     }
 

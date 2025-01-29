@@ -1,6 +1,6 @@
 package com.agendamais.api.controllers;
 
-import com.agendamais.api.config.success_response;
+import com.agendamais.api.config.success_response_config;
 import com.agendamais.api.dtos.schedule.schedule_create_record_dto;
 import com.agendamais.api.dtos.schedule.schedule_create_response_record_dto;
 import com.agendamais.api.dtos.schedule.schedule_update_record_dto;
@@ -20,7 +20,7 @@ public class schedule_controller {
     private schedule_service schedule_service;
 
     @PostMapping("/create")
-    public ResponseEntity<success_response> createSchedules(
+    public ResponseEntity<success_response_config> createSchedules(
             @Valid @RequestBody schedule_create_record_dto request) {
         List<schedule_model> schedules = schedule_service.create_schedules(
                 request.start_time(),
@@ -29,7 +29,7 @@ public class schedule_controller {
                 request.employee_id()
         );
 
-        return ResponseEntity.ok(new success_response("Horários criados com sucesso."));
+        return ResponseEntity.ok(new success_response_config("Horários criados com sucesso."));
     }
 
     @GetMapping("/employee/{employeeId}")
@@ -44,15 +44,15 @@ public class schedule_controller {
     }
 
     @DeleteMapping("/delete/{employeeId}")
-    public ResponseEntity<success_response> deleteSchedulesByEmployeeId(@PathVariable Long employeeId) {
+    public ResponseEntity<success_response_config> deleteSchedulesByEmployeeId(@PathVariable Long employeeId) {
         schedule_service.delete_schedules_by_employee_id(employeeId);
 
-        return ResponseEntity.ok(new success_response("Horários deletados com sucesso."));
+        return ResponseEntity.ok(new success_response_config("Horários deletados com sucesso."));
 
     }
 
     @PutMapping("/update/{scheduleId}")
-    public ResponseEntity<success_response> updateScheduleAvailability(
+    public ResponseEntity<success_response_config> updateScheduleAvailability(
             @PathVariable Long scheduleId,
             @Valid @RequestBody schedule_update_record_dto request) {
 
@@ -61,6 +61,6 @@ public class schedule_controller {
                 request.is_available()
         );
 
-        return ResponseEntity.ok(new success_response("Horário atualizado com sucesso."));
+        return ResponseEntity.ok(new success_response_config("Horário atualizado com sucesso."));
     }
 }

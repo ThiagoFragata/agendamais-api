@@ -1,6 +1,6 @@
 package com.agendamais.api.models;
 
-import com.agendamais.api.config.appointment_status_enum;
+import com.agendamais.api.enums.appointment_status_enum;
 import jakarta.persistence.*;
 
 @Entity

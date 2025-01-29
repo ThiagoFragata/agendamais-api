@@ -3,7 +3,7 @@ package com.agendamais.api.controllers;
 import com.agendamais.api.dtos.employee.*;
 import com.agendamais.api.models.employee_model;
 import com.agendamais.api.services.employee_service;
-import com.agendamais.api.config.success_response;
+import com.agendamais.api.config.success_response_config;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -81,16 +81,16 @@ public class employee_controller {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<success_response> deactivate_employee(@PathVariable Long id) {
+    public ResponseEntity<success_response_config> deactivate_employee(@PathVariable Long id) {
         employee_service.deactivate_employee(id);
-        success_response response = new success_response("Funcionário desativado com sucesso");
+        success_response_config response = new success_response_config("Funcionário desativado com sucesso");
         return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}/activate")
-    public ResponseEntity<success_response> activate_employee(@PathVariable Long id) {
+    public ResponseEntity<success_response_config> activate_employee(@PathVariable Long id) {
         employee_service.activate_employee(id);
-        success_response response = new success_response("Funcionário ativado com sucesso");
+        success_response_config response = new success_response_config("Funcionário ativado com sucesso");
         return ResponseEntity.ok(response);
     }
 }

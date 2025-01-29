@@ -1,6 +1,6 @@
 package com.agendamais.api.dtos.appointment;
 
-import com.agendamais.api.config.appointment_status_enum;
+import com.agendamais.api.enums.appointment_status_enum;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 

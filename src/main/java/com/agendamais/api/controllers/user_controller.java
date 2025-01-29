@@ -4,7 +4,7 @@ import com.agendamais.api.dtos.user.user_record_dto;
 import com.agendamais.api.dtos.user.user_response_record_dto;
 import com.agendamais.api.models.user_model;
 import com.agendamais.api.services.user_service;
-import com.agendamais.api.config.error_response;
+import com.agendamais.api.config.error_response_config;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -63,7 +63,7 @@ public class user_controller {
     }
 
     private ResponseEntity<Object> create_error_response(HttpStatus status, Object message) {
-        error_response errorResponse = new error_response(status.value(), message);
+        error_response_config errorResponse = new error_response_config(status.value(), message);
         return ResponseEntity.status(status).body(errorResponse);
     }
 }

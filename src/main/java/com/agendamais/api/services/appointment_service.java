@@ -1,12 +1,11 @@
 package com.agendamais.api.services;
 
-import com.agendamais.api.config.appointment_status_enum;
+import com.agendamais.api.enums.appointment_status_enum;
 import com.agendamais.api.dtos.appointment.appointment_create_record_dto;
 import com.agendamais.api.dtos.appointment.update_appointment_status_record_dto;
 import com.agendamais.api.models.*;
 import com.agendamais.api.repositories.*;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @ControllerAdvice
-public class global_exception_handler {
+public class global_exceptions_config {
 
     public static class error_response {
         private final LocalDateTime timestamp;
