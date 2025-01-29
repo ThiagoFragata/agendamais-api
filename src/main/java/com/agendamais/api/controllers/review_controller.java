@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("api/reviews")
+@RequestMapping("reviews")
 public class review_controller {
 
     @Autowired

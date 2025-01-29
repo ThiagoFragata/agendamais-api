@@ -8,14 +8,13 @@ import com.agendamais.api.models.appointment_model;
 import com.agendamais.api.services.appointment_service;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("api/appointments")
+@RequestMapping("appointments")
 public class appointment_controller {
 
     @Autowired
