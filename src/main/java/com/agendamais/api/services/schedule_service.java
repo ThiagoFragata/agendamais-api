@@ -54,6 +54,7 @@ public class schedule_service {
         schedule_repository.deleteByEmployeeId(employeeId);
     }
 
+    @Transactional
     public schedule_model update_schedule_availability(Long scheduleId, boolean isAvailable) {
         schedule_model schedule = schedule_repository.findById(scheduleId)
                 .orElseThrow(() -> new RuntimeException("Horário não encontrado"));

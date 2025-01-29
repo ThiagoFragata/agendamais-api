@@ -2,12 +2,15 @@ package com.agendamais.api.services;
 
 import com.agendamais.api.dtos.service.service_create_update_record_dto;
 import com.agendamais.api.models.category_model;
+import com.agendamais.api.models.employee_model;
 import com.agendamais.api.models.service_model;
 import com.agendamais.api.models.store_model;
 import com.agendamais.api.repositories.category_repository;
+import com.agendamais.api.repositories.employee_repository;
 import com.agendamais.api.repositories.service_repository;
 import com.agendamais.api.repositories.store_repository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,26 +28,28 @@ public class service_service {
     @Autowired
     private category_repository category_repository;
 
+    @Autowired
+    private employee_repository employee_repository;
 
-    public service_model create_service(service_create_update_record_dto serviceDto) {
 
-        store_model store = store_repository.findById(serviceDto.store_id())
-                .orElseThrow(() -> new EntityNotFoundException("Loja não encontrada"));
+    @Transactional
+    public service_model create_service(service_create_update_record_dto service_dto) {
+        category_model category = category_repository.findById(service_dto.category_id())
+                .orElseThrow(() -> new EntityNotFoundException("Category not found"));
 
-        category_model category = category_repository.findById(serviceDto.category_id())
-                .orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada"));
+        store_model store = store_repository.findById(service_dto.store_id())
+                .orElseThrow(() -> new EntityNotFoundException("Store not found"));
 
-        if (!store.getCategories().contains(category)) {
-            throw new IllegalArgumentException("A categoria fornecida não pertence à loja selecionada.");
-        }
+        List<employee_model> employees = employee_repository.findAllById(service_dto.employee_ids());
 
         service_model service = new service_model();
-        service.setName(serviceDto.name());
-        service.setPrice(serviceDto.price());
-        service.setTime(serviceDto.time());
-        service.setActive(true);
-        service.setStore(store);
+        service.setName(service_dto.name());
+        service.setPrice(service_dto.price());
+        service.setTime(service_dto.time());
+        service.setActive(service_dto.active());
         service.setCategory(category);
+        service.setStore(store);
+        service.setEmployees(employees);
 
         return service_repository.save(service);
     }

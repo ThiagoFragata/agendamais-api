@@ -2,6 +2,9 @@ package com.agendamais.api.models;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "Services")
 public class service_model {
@@ -29,6 +32,14 @@ public class service_model {
     @ManyToOne
     @JoinColumn(name = "id_store")
     private store_model store;
+
+    @ManyToMany
+    @JoinTable(
+            name = "service_employees",
+            joinColumns = @JoinColumn(name = "id_service"),
+            inverseJoinColumns = @JoinColumn(name = "id_employee")
+    )
+    private List<employee_model> employees = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -84,5 +95,13 @@ public class service_model {
 
     public void setStore(store_model store) {
         this.store = store;
+    }
+
+    public List<employee_model> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(List<employee_model> employees) {
+        this.employees = employees;
     }
 }

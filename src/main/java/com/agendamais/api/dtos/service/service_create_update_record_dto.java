@@ -2,6 +2,8 @@ package com.agendamais.api.dtos.service;
 
 import jakarta.validation.constraints.*;
 
+import java.util.List;
+
 public record service_create_update_record_dto(
         @NotBlank(message = "O nome do serviço é obrigatório")
         @Size(max = 100, message = "O nome do serviço deve ter no máximo 100 caracteres")
@@ -23,5 +25,7 @@ public record service_create_update_record_dto(
         Long category_id,
 
         @NotNull(message = "O ID da loja é obrigatório")
-        Long store_id
+        Long store_id,
+
+        List<Long> employee_ids
 ) {}

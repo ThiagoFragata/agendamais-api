@@ -2,6 +2,9 @@ package com.agendamais.api.models;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "Employees")
 public class employee_model {
@@ -20,13 +23,15 @@ public class employee_model {
     private Boolean active = true;
 
     @OneToOne
-    @JoinColumn(name = "idUsers")
+    @JoinColumn(name = "id_user")
     private user_model user;
 
     @ManyToOne
     @JoinColumn(name = "id_store", nullable = false)
     private store_model store;
 
+    @ManyToMany(mappedBy = "employees")
+    private List<service_model> services = new ArrayList<>();
 
     public Long getId() {
         return id;
