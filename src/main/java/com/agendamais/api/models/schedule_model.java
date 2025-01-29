@@ -17,7 +17,7 @@ public class schedule_model {
     private Boolean available;
 
     @ManyToOne
-    @JoinColumn(name = "idEmployees")
+    @JoinColumn(name = "id_employee")
     private employee_model employee;
 
     public Long getId() {
