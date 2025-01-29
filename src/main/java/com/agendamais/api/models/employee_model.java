@@ -2,12 +2,13 @@ package com.agendamais.api.models;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "Employees")
-public class employee_model {
+public class employee_model implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

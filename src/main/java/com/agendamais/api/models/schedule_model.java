@@ -2,9 +2,11 @@ package com.agendamais.api.models;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "Schedules")
-public class schedule_model {
+public class schedule_model implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

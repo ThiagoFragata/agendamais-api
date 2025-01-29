@@ -3,11 +3,11 @@ package com.agendamais.api.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
-import java.util.List;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "Categories")
-public class category_model {
+public class category_model implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

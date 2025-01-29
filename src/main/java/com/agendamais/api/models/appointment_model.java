@@ -3,32 +3,34 @@ package com.agendamais.api.models;
 import com.agendamais.api.enums.appointment_status_enum;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "Appointments")
-public class appointment_model {
+public class appointment_model implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "idSchedules", nullable = false)
+    @JoinColumn(name = "id_schedules", nullable = false)
     private schedule_model schedule;
 
     @ManyToOne
-    @JoinColumn(name = "idUsers", nullable = false)
+    @JoinColumn(name = "id_users", nullable = false)
     private user_model user;
 
     @ManyToOne
-    @JoinColumn(name = "idEmployees", nullable = false)
+    @JoinColumn(name = "id_employees", nullable = false)
     private employee_model employee;
 
     @ManyToOne
-    @JoinColumn(name = "idServices", nullable = false)
+    @JoinColumn(name = "id_services", nullable = false)
     private service_model service;
 
     @ManyToOne
-    @JoinColumn(name = "idStores", nullable = false)
+    @JoinColumn(name = "id_stores", nullable = false)
     private store_model store;
 
     @Enumerated(EnumType.STRING)

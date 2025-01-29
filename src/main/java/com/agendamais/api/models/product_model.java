@@ -1,10 +1,15 @@
 package com.agendamais.api.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Products")
-public class product_model {
+public class product_model implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,6 +31,10 @@ public class product_model {
     @ManyToOne
     @JoinColumn(name = "id_store", nullable = false)
     private store_model store;
+
+    @JsonIgnoreProperties("product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<sale_model> sales = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -81,5 +90,13 @@ public class product_model {
 
     public void setStore(store_model store) {
         this.store = store;
+    }
+
+    public List<sale_model> getSales() {
+        return sales;
+    }
+
+    public void setSales(List<sale_model> sales) {
+        this.sales = sales;
     }
 }

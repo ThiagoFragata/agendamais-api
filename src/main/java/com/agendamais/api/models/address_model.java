@@ -4,9 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "Address")
-public class address_model {
+public class address_model implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

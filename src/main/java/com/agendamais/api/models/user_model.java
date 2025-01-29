@@ -1,9 +1,12 @@
 package com.agendamais.api.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Users")
@@ -25,6 +28,10 @@ public class user_model implements Serializable {
 
     @Column(nullable = false)
     private String password;
+
+    @JsonIgnoreProperties("user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<sale_model> sales = new ArrayList<>();
 
 
     public long getId() {
@@ -65,5 +72,17 @@ public class user_model implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public List<sale_model> getSales() {
+        return sales;
+    }
+
+    public void setSales(List<sale_model> sales) {
+        this.sales = sales;
     }
 }
