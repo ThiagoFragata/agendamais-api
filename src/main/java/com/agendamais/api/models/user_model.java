@@ -1,5 +1,6 @@
 package com.agendamais.api.models;
 
+import com.agendamais.api.enums.role_enum;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -28,6 +29,9 @@ public class user_model implements Serializable {
 
     @Column(nullable = false)
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private role_enum role;
 
     @JsonIgnoreProperties("user")
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -43,7 +43,6 @@ public class appointment_service {
         schedule_model schedule = schedule_repository.findById(appointment_dto.schedule_id())
                 .orElseThrow(() -> new EntityNotFoundException("Schedule not found"));
 
-        // Verificar se o horário está disponível
         if (!schedule.getAvailable()) {
             throw new IllegalArgumentException("O horário selecionado não está disponível");
         }
@@ -74,6 +73,7 @@ public class appointment_service {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
         LocalTime schedule_time = LocalTime.parse(schedule.getSchedule(), formatter);
+
         int service_duration = service.getTime();
 
         LocalTime end_time = schedule_time.plusMinutes(service_duration);
@@ -90,7 +90,7 @@ public class appointment_service {
         appointment.setEmployee(employee);
         appointment.setService(service);
         appointment.setStore(store);
-        appointment.setStatus(appointment_dto.status());
+        appointment.setStatus(appointment_status_enum.valueOf("PENDING"));
 
         return appointment_repository.save(appointment);
     }
