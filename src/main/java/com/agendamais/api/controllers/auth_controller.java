@@ -1,5 +1,6 @@
 package com.agendamais.api.controllers;
 
+import com.agendamais.api.dtos.auth.auth_record_dto;
 import com.agendamais.api.dtos.user.user_record_dto;
 import com.agendamais.api.services.auth_service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class auth_controller {
     private auth_service authService;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody user_record_dto request) {
+    public ResponseEntity<String> login(@RequestBody auth_record_dto request) {
         String token = authService.authenticate(request.email(), request.password());
         return ResponseEntity.ok(token);
     }

@@ -1,7 +1,9 @@
 package com.agendamais.api.services;
 
 import com.agendamais.api.utils.jwt_token_util;
+import org.hibernate.validator.internal.util.stereotypes.Lazy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -12,16 +14,18 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class auth_service {
-    @Autowired
-    private final AuthenticationManager authenticationManager;
 
-    @Autowired
+    private final AuthenticationManager authenticationManager;
     private final jwt_token_util jwtTokenUtil;
 
+    @Lazy
     @Autowired
     private final UserDetailsService userDetailsService;
 
-    public auth_service(AuthenticationManager authenticationManager, jwt_token_util jwtTokenUtil, UserDetailsService userDetailsService) {
+    public auth_service(
+            AuthenticationManager authenticationManager,
+            jwt_token_util jwtTokenUtil,
+            @Qualifier("custom_user_details_service") UserDetailsService userDetailsService) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenUtil = jwtTokenUtil;
         this.userDetailsService = userDetailsService;

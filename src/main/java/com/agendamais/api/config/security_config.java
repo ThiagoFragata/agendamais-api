@@ -29,12 +29,12 @@ public class security_config {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()                    // Permite acesso público ao endpoint de autenticação
-                        .requestMatchers("/admin/**").hasRole("ADMIN")              // Apenas ADMIN pode acessar endpoints de admin
-                        .requestMatchers("/owner/**").hasRole("OWNER")              // Apenas OWNER pode acessar endpoints de owner
-                        .requestMatchers("/employee/**").hasRole("EMPLOYEE")        // Apenas EMPLOYEE pode acessar endpoints de employee
-                        .requestMatchers("/customer/**").hasRole("CUSTOMER")        // Apenas CUSTOMER pode acessar endpoints de customer
-                        .anyRequest().authenticated()                                         // Todos os outros endpoints exigem autenticação
+                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/owner/**").hasRole("OWNER")
+                        .requestMatchers("/employee/**").hasRole("EMPLOYEE")
+                        .requestMatchers("/customer/**").hasRole("CUSTOMER")
+                        .anyRequest().permitAll()
                 )
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
@@ -43,7 +43,7 @@ public class security_config {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); // Usa BCrypt para hashear senhas
+        return new BCryptPasswordEncoder();
     }
 
     @Bean

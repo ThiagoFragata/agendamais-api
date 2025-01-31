@@ -1,11 +1,11 @@
 package com.agendamais.api.config;
 
+import com.agendamais.api.services.custom_user_details_service;
 import com.agendamais.api.utils.jwt_token_util;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -20,10 +20,10 @@ import java.io.IOException;
 public class jwt_token_filter extends OncePerRequestFilter {
 
     private final jwt_token_util jwtTokenUtil;
-    private final UserDetailsService userDetailsService;
+    private final custom_user_details_service userDetailsService;
 
-    public jwt_token_filter(jwt_token_util jwt_token_util, UserDetailsService userDetailsService) {
-        this.jwtTokenUtil = jwt_token_util;
+    public jwt_token_filter(jwt_token_util jwtTokenUtil, custom_user_details_service userDetailsService) {
+        this.jwtTokenUtil = jwtTokenUtil;
         this.userDetailsService = userDetailsService;
     }
 
@@ -41,7 +41,7 @@ public class jwt_token_filter extends OncePerRequestFilter {
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
             if (jwtTokenUtil.validateToken(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(

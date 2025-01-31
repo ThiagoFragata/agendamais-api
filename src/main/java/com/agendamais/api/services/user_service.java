@@ -6,6 +6,9 @@ import com.agendamais.api.models.user_model;
 import com.agendamais.api.repositories.user_repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.stream.Collectors;
@@ -34,6 +37,7 @@ public class user_service {
         user.setEmail(user_record_dto.email());
         user.setName(user_record_dto.name());
         user.setPhone(user_record_dto.phone());
+        user.setRole(user_record_dto.role());
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(user_record_dto.password());
@@ -50,9 +54,10 @@ public class user_service {
         return user_repository.findAll().stream()
                 .map(user -> new user_response_record_dto(
                         user.getId(),
-                        user.getName(),
                         user.getEmail(),
-                        user.getPhone()
+                        user.getName(),
+                        user.getPhone(),
+                        user.getRole()
                 ))
                 .collect(Collectors.toList());
     }
@@ -61,9 +66,10 @@ public class user_service {
         return user_repository.findById(id)
                 .map(user -> new user_response_record_dto(
                         user.getId(),
-                        user.getName(),
                         user.getEmail(),
-                        user.getPhone()
+                        user.getName(),
+                        user.getPhone(),
+                        user.getRole()
                 ));
     }
 
@@ -74,5 +80,4 @@ public class user_service {
             throw new IllegalArgumentException("Usuário não encontrado.");
         }
     }
-
 }

@@ -1,5 +1,6 @@
 package com.agendamais.api.dtos.employee;
 
+import com.agendamais.api.enums.role_enum;
 import jakarta.validation.constraints.*;
 
 public record employee_create_with_user_record_dto(
@@ -33,5 +34,8 @@ public record employee_create_with_user_record_dto(
         @Pattern(regexp = ".*[a-z].*", message = "A senha deve conter pelo menos uma letra minúscula")
         @Pattern(regexp = ".*\\d.*", message = "A senha deve conter pelo menos um número")
         @Pattern(regexp = ".*[!@#$%^&*(),.?\":{}|<>].*", message = "A senha deve conter pelo menos um caractere especial")
-        String password
+        String password,
+
+        @NotNull(message = "O campo 'role' não pode ser nulo")
+        role_enum role
 ) {}

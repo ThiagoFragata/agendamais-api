@@ -56,7 +56,8 @@ public class employee_service {
                 employee_dto.email(),
                 employee_dto.name(),
                 employee_dto.phone(),
-                employee_dto.password()
+                employee_dto.password(),
+                employee_dto.role()
         ));
 
         employee_model employee = new employee_model();
