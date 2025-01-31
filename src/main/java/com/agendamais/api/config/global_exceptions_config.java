@@ -5,6 +5,8 @@ import jakarta.validation.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -85,6 +87,18 @@ public class global_exceptions_config {
     public ResponseEntity<error_response> handleIllegalArgumentException(IllegalArgumentException ex) {
         error_response error = new error_response(400, "Bad Request", ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<error_response> handleAccessDeniedException(AccessDeniedException ex) {
+        error_response error = new error_response(403, "Forbidden", "Você não tem permissão para acessar este recurso.");
+        return new ResponseEntity<>(error, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<error_response> handleAuthenticationException(AuthenticationException ex) {
+        error_response error = new error_response(401, "Unauthorized", "Autenticação falhou. Verifique suas credenciais.");
+        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(RuntimeException.class)

@@ -1,7 +1,6 @@
 package com.agendamais.api.security;
 
 import com.agendamais.api.services.custom_user_details_service;
-import com.agendamais.api.utils.jwt_token_util;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

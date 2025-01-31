@@ -1,4 +1,4 @@
-package com.agendamais.api.utils;
+package com.agendamais.api.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

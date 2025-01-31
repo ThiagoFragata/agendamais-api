@@ -5,6 +5,8 @@ import com.agendamais.api.dtos.user.user_response_record_dto;
 import com.agendamais.api.models.user_model;
 import com.agendamais.api.services.user_service;
 import com.agendamais.api.config.error_response_config;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
+@Tag(name = "Usuários", description = "Endpoints de usuários")
 @RestController
 @RequestMapping("users")
 public class user_controller {
@@ -22,6 +25,8 @@ public class user_controller {
     @Autowired
     private user_service user_service;
 
+    @Operation(summary = "Criar usuário")
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<Object> create_user(@RequestBody @Valid user_record_dto user, BindingResult binding_result) {
         if (binding_result.hasErrors()) {
@@ -34,6 +39,8 @@ public class user_controller {
         return ResponseEntity.status(HttpStatus.CREATED).body(new_user);
     }
 
+    @Operation(summary = "Buscar todos os usuários")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<Object> get_all_users() {
         List<user_response_record_dto> users = user_service.find_all_users();
@@ -45,6 +52,8 @@ public class user_controller {
         return ResponseEntity.ok(users);
     }
 
+    @Operation(summary = "Buscar usuário pelo ID")
+    @PreAuthorize("hasAnyRole('ADMIN', 'OWNER', 'EMPLOYEE', 'CUSTOMER')")
     @GetMapping("/{id}")
     public ResponseEntity<Object> get_user_by_id(@PathVariable Long id) {
         Optional<user_response_record_dto> user_dto = user_service.find_user_by_id(id);
@@ -53,6 +62,8 @@ public class user_controller {
                 .orElseGet(() -> create_error_response(HttpStatus.NOT_FOUND, "Usuário não encontrado"));
     }
 
+    @Operation(summary = "Deletar usuário pelo ID")
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete_user(@PathVariable Long id) {
         user_service.delete_user(id);

@@ -1,7 +1,7 @@
 package com.agendamais.api.services;
 
 import com.agendamais.api.repositories.user_repository;
-import com.agendamais.api.utils.custom_user_details_util;
+import com.agendamais.api.utils.custom_user_details;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -28,7 +28,7 @@ public class custom_user_details_service implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepository.findByEmail(email)
-                .map(user -> new custom_user_details_util(
+                .map(user -> new custom_user_details(
                         user.getId(),
                         user.getName(),
                         user.getEmail(),
