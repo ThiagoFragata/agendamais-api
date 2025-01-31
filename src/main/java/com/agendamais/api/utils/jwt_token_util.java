@@ -27,8 +27,10 @@ public class jwt_token_util {
         return Keys.hmacShaKeyFor(secret.getBytes());
     }
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(UserDetails userDetails, Long id, String name) {
         Map<String, Object> claims = new HashMap<>();
+        claims.put("id", id);
+        claims.put("name", name);
         return createToken(claims, userDetails.getUsername());
     }
 
@@ -43,11 +45,11 @@ public class jwt_token_util {
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
+        final String username = extractEmail(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
-    public String extractUsername(String token) {
+    public String extractEmail(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 

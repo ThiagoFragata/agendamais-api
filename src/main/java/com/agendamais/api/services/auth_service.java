@@ -1,5 +1,6 @@
 package com.agendamais.api.services;
 
+import com.agendamais.api.utils.custom_user_details_util;
 import com.agendamais.api.utils.jwt_token_util;
 import org.hibernate.validator.internal.util.stereotypes.Lazy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,11 @@ public class auth_service {
                 new UsernamePasswordAuthenticationToken(email, password));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-        return jwtTokenUtil.generateToken(userDetails);
+        custom_user_details_util userDetails = (custom_user_details_util) userDetailsService.loadUserByUsername(email);
+
+        Long id = userDetails.getId();
+        String name = userDetails.getName();
+
+        return jwtTokenUtil.generateToken(userDetails, id, name);
     }
 }

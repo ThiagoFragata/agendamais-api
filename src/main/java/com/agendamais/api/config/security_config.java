@@ -1,5 +1,6 @@
 package com.agendamais.api.config;
 
+import com.agendamais.api.security.jwt_token_filter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
