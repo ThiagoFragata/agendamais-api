@@ -6,19 +6,25 @@ import com.agendamais.api.dtos.schedule.schedule_create_response_record_dto;
 import com.agendamais.api.dtos.schedule.schedule_update_record_dto;
 import com.agendamais.api.models.schedule_model;
 import com.agendamais.api.services.schedule_service;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "Horários", description = "Endpoints referente a horários")
 @RestController
 @RequestMapping("schedules")
 public class schedule_controller {
     @Autowired
     private schedule_service schedule_service;
 
+    @Operation(summary = "Criar horários")
+    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
     @PostMapping("/create")
     public ResponseEntity<success_response_config> createSchedules(
             @Valid @RequestBody schedule_create_record_dto request) {
@@ -32,6 +38,8 @@ public class schedule_controller {
         return ResponseEntity.ok(new success_response_config("Horários criados com sucesso."));
     }
 
+    @Operation(summary = "Buscar horários do funcionário")
+    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
     @GetMapping("/employee/{employeeId}")
     public ResponseEntity<List<schedule_create_response_record_dto>> getSchedulesByEmployeeId(@PathVariable Long employeeId) {
         List<schedule_model> schedules = schedule_service.get_schedules_by_employee_id(employeeId);
@@ -43,6 +51,8 @@ public class schedule_controller {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "Deletar todos os horários pelo ID do funcionário")
+    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
     @DeleteMapping("/delete/{employeeId}")
     public ResponseEntity<success_response_config> deleteSchedulesByEmployeeId(@PathVariable Long employeeId) {
         schedule_service.delete_schedules_by_employee_id(employeeId);
@@ -51,6 +61,8 @@ public class schedule_controller {
 
     }
 
+    @Operation(summary = "Ativar e/ou Desativar horário")
+    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE', 'CUSTOMER')")
     @PutMapping("/update/{scheduleId}")
     public ResponseEntity<success_response_config> updateScheduleAvailability(
             @PathVariable Long scheduleId,
