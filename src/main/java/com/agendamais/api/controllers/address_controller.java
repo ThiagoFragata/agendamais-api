@@ -5,16 +5,20 @@ import com.agendamais.api.dtos.address.address_response_record_dto;
 import com.agendamais.api.models.address_model;
 import com.agendamais.api.services.address_service;
 import com.agendamais.api.config.error_response_config;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Tag(name = "Endereços", description = "Endpoints de endereço")
 @RestController
 @RequestMapping("address")
 public class address_controller {
@@ -22,6 +26,8 @@ public class address_controller {
     @Autowired
     private address_service address_service;
 
+    @Operation(summary = "Criar endereço")
+    @PreAuthorize("hasAnyRole('ADMIN', 'OWNER', 'EMPLOYEE', 'CUSTOMER')")
     @PostMapping
     public ResponseEntity<Object> create_address(@RequestBody @Valid address_record_dto address_create_record_dto, BindingResult binding_result) {
         if (binding_result.hasErrors()) {
@@ -38,6 +44,8 @@ public class address_controller {
         }
     }
 
+    @Operation(summary = "Buscar todos os endereços")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping
     public ResponseEntity<Object> find_all_address() {
         List<address_model> addresses = address_service.find_all_address();
@@ -53,6 +61,8 @@ public class address_controller {
         return ResponseEntity.ok(addressDtos);
     }
 
+    @Operation(summary = "Buscar endereço pelo ID")
+    @PreAuthorize("hasAnyRole('ADMIN', 'OWNER', 'EMPLOYEE', 'CUSTOMER')")
     @GetMapping("/{id}")
     public ResponseEntity<Object> find_address_by_id(@PathVariable Long id) {
         return address_service.find_address_by_id(id)
@@ -60,6 +70,8 @@ public class address_controller {
                 .orElseGet(() -> create_error_response(HttpStatus.NOT_FOUND, "Endereço não encontrado."));
     }
 
+    @Operation(summary = "Deletar enderço")
+    @PreAuthorize("hasAnyRole('ADMIN', 'OWNER', 'EMPLOYEE', 'CUSTOMER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete_address(@PathVariable Long id) {
         try {
