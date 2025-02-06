@@ -16,6 +16,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,6 +48,7 @@ public class auth_controller {
                     @ApiResponse(responseCode = "401", description = "Credenciais inválidas")
             }
     )
+    @PreAuthorize("hasAnyRole('ADMIN', 'OWNER', 'EMPLOYEE', 'CUSTOMER')")
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(@RequestBody auth_record_dto request) {
         String token = authService.authenticate(request.email(), request.password());
@@ -58,6 +60,7 @@ public class auth_controller {
             summary = "Registrar  usuário",
             description = "Recebe campos de nome, telefone, e-mail e senha"
     )
+    @PreAuthorize("hasAnyRole('ADMIN', 'OWNER', 'EMPLOYEE', 'CUSTOMER')")
     @PostMapping("/register")
     public ResponseEntity<Object> register(@RequestBody @Valid user_record_dto user, BindingResult binding_result) {
         if (binding_result.hasErrors()) {
