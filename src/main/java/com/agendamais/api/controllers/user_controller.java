@@ -2,6 +2,7 @@ package com.agendamais.api.controllers;
 
 import com.agendamais.api.dtos.user.user_record_dto;
 import com.agendamais.api.dtos.user.user_response_record_dto;
+import com.agendamais.api.enums.role_enum;
 import com.agendamais.api.models.user_model;
 import com.agendamais.api.services.user_service;
 import com.agendamais.api.config.error_response_config;
@@ -35,7 +36,13 @@ public class user_controller {
             return create_error_response(HttpStatus.BAD_REQUEST, error_messages);
         }
 
-        user_model new_user = user_service.create_user(user);
+        user_model new_user = new user_model();
+        new_user.setEmail(user.email());
+        new_user.setName(user.name());
+        new_user.setPhone(user.phone());
+        new_user.setPassword(user.password());
+        new_user.setRole(user.role());
+        
         return ResponseEntity.status(HttpStatus.CREATED).body(new_user);
     }
 

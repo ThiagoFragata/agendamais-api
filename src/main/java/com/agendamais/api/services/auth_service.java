@@ -1,5 +1,6 @@
 package com.agendamais.api.services;
 
+import com.agendamais.api.dtos.user.user_response_record_dto;
 import com.agendamais.api.utils.custom_user_details;
 import com.agendamais.api.security.jwt_token_util;
 import org.hibernate.validator.internal.util.stereotypes.Lazy;
@@ -15,6 +16,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class auth_service {
 
@@ -24,6 +27,10 @@ public class auth_service {
     @Lazy
     @Autowired
     private final UserDetailsService userDetailsService;
+
+    @Lazy
+    @Autowired
+    private user_service user_service;
 
     public auth_service(
             AuthenticationManager authenticationManager,
@@ -49,7 +56,15 @@ public class auth_service {
             Long id = userDetails.getId();
             String name = userDetails.getName();
 
-            return jwtTokenUtil.generateToken(userDetails, id, name);
+            Optional<user_response_record_dto> userOptional = user_service.find_user_by_id(id);
+
+            if (userOptional.isEmpty()) {
+                throw new UsernameNotFoundException("Usuário não encontrado.");
+            }
+
+            String role = String.valueOf(userOptional.get().role());
+
+            return jwtTokenUtil.generateToken(userDetails, id, name, role);
         } catch (BadCredentialsException e) {
             throw new BadCredentialsException("Credenciais inválidas. Verifique seu email e senha.");
         } catch (UsernameNotFoundException e) {

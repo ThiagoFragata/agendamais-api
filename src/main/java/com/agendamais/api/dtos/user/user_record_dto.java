@@ -23,6 +23,5 @@ public record user_record_dto(
         @Pattern(regexp = ".*[!@#$%^&*(),.?\":{}|<>].*", message = "A senha deve conter pelo menos um caractere especial")
         String password,
 
-        @NotNull(message = "O campo 'role' não pode ser nulo")
         role_enum role
 ) {}

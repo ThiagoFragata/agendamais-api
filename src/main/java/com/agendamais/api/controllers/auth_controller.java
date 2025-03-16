@@ -4,6 +4,7 @@ import com.agendamais.api.config.error_response_config;
 import com.agendamais.api.dtos.auth.auth_record_dto;
 import com.agendamais.api.dtos.auth.auth_response_record_dto;
 import com.agendamais.api.dtos.user.user_record_dto;
+import com.agendamais.api.enums.role_enum;
 import com.agendamais.api.models.user_model;
 import com.agendamais.api.services.auth_service;
 import com.agendamais.api.services.user_service;
@@ -16,7 +17,6 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,7 +48,6 @@ public class auth_controller {
                     @ApiResponse(responseCode = "401", description = "Credenciais inválidas")
             }
     )
-    @PreAuthorize("hasAnyRole('ADMIN', 'OWNER', 'EMPLOYEE', 'CUSTOMER')")
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(@RequestBody auth_record_dto request) {
         String token = authService.authenticate(request.email(), request.password());
@@ -60,16 +59,24 @@ public class auth_controller {
             summary = "Registrar  usuário",
             description = "Recebe campos de nome, telefone, e-mail e senha"
     )
-    @PreAuthorize("hasAnyRole('ADMIN', 'OWNER', 'EMPLOYEE', 'CUSTOMER')")
-    @PostMapping("/register")
+    @PostMapping("/register/customer")
     public ResponseEntity<Object> register(@RequestBody @Valid user_record_dto user, BindingResult binding_result) {
         if (binding_result.hasErrors()) {
             List<String> error_messages = new ArrayList<>();
             binding_result.getAllErrors().forEach(error -> error_messages.add(error.getDefaultMessage()));
-            return create_error_response (error_messages);
+            return create_error_response(error_messages);
         }
 
-        user_model new_user = user_service.create_user(user);
+        user_record_dto user_with_role = new user_record_dto(
+                user.email(),
+                user.name(),
+                user.phone(),
+                user.password(),
+                role_enum.CUSTOMER
+        );
+
+        user_model new_user = user_service.create_user(user_with_role);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(new_user);
     }
 

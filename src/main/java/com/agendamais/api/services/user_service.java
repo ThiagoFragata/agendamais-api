@@ -4,11 +4,9 @@ import com.agendamais.api.dtos.user.user_record_dto;
 import com.agendamais.api.dtos.user.user_response_record_dto;
 import com.agendamais.api.models.user_model;
 import com.agendamais.api.repositories.user_repository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.stream.Collectors;
@@ -22,7 +20,7 @@ public class user_service {
     @Autowired
     private  user_repository user_repository;
 
-    public user_model create_user(user_record_dto user_record_dto) {
+    public user_model create_user(@Valid user_record_dto user_record_dto) {
         user_model user = new user_model();
 
         if (user_repository.existsByEmail(user_record_dto.email())) {
