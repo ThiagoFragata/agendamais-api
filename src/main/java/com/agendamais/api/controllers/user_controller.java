@@ -2,7 +2,6 @@ package com.agendamais.api.controllers;
 
 import com.agendamais.api.dtos.user.user_record_dto;
 import com.agendamais.api.dtos.user.user_response_record_dto;
-import com.agendamais.api.enums.role_enum;
 import com.agendamais.api.models.user_model;
 import com.agendamais.api.services.user_service;
 import com.agendamais.api.config.error_response_config;
